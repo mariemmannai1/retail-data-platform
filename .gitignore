@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+retail.duckdb
+*.duckdb
+.pytest_cache/
+.streamlit/secrets.toml
+
+# Raw data and generated exports
+data/raw/
+data/powerbi/
+
+# Generated forecast outputs
+data/forecast_metrics.csv
+data/sales_forecast_7days.csv
+
+# Local databases
+*.duckdb
