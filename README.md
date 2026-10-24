@@ -106,7 +106,7 @@ The model does not generate executable SQL. Python selects an approved query, an
 Clone the repository:
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
+git clone https://github.com/mariemmannai1/retail-data-platform.git
 cd retail-data-platform
 ```
 
@@ -148,6 +148,27 @@ Run the AI Copilot tests:
 ```powershell
 .\.venv\Scripts\python.exe -m py_compile .\src\ai_copilot.py
 ```
+
+### Run with Docker
+
+Docker Desktop must be installed and running.
+
+Build and execute the Dockerized pipeline:
+
+```powershell
+docker compose run --rm retail-pipeline
+```
+
+The pipeline runs the analytical model, data-quality validations, daily-sales consistency checks, forecast loading, and Parquet export validation.
+
+The Docker test pipeline uses a separate database (`retail_docker_test.duckdb`) and export directory (`data/powerbi_docker_test/`) to avoid overwriting the original local project outputs.
+
+To rebuild the Docker image after changing the Docker configuration or dependencies:
+
+```powershell
+docker compose build --no-cache
+```
+
 
 ## Repository Structure
 
