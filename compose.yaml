@@ -1,0 +1,13 @@
+
+services:
+  retail-pipeline:
+    build:
+      context: .
+    image: retail-data-platform:latest
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      PYTHONUNBUFFERED: "1"
+      PYTHONIOENCODING: "utf-8"
+    command: ["python", "src/run_pipeline_docker.py"]

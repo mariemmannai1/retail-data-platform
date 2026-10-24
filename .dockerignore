@@ -1,0 +1,10 @@
+.venv/
+.git/
+__pycache__/
+*.pyc
+*.duckdb
+data/
+dashboards/
+docs/
+tests/
+Retail_Data_Platform.pbix

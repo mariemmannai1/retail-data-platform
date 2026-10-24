@@ -19,3 +19,8 @@ data/sales_forecast_7days.csv
 
 # Local databases
 *.duckdb
+# Generated and processed data
+data/processed/
+data/powerbi_docker_test/
+data/forecast_metrics.csv
+data/sales_forecast_7days.csv
