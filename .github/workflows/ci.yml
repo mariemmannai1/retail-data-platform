@@ -1,0 +1,62 @@
+
+name: Retail Data Platform CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  code-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas duckdb scikit-learn streamlit ollama pyarrow pytest
+
+      - name: Check Python syntax
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+
+          files = list(Path("src").rglob("*.py")) + list(Path("tests").rglob("*.py"))
+          errors = []
+
+          for file in files:
+              try:
+                  ast.parse(file.read_text(encoding="utf-8"), filename=str(file))
+              except (SyntaxError, UnicodeDecodeError) as exc:
+                  errors.append(f"{file}: {exc}")
+
+          if errors:
+              print("\n".join(errors))
+              raise SystemExit(1)
+
+          print(f"Syntax OK: {len(files)} Python files checked.")
+          PY
+
+      - name: Check SQL files are present
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          files = list(Path("sql").rglob("*.sql"))
+          if not files:
+              raise SystemExit("No SQL files found.")
+          print(f"SQL files found: {len(files)}")
+          for file in files:
+              print(file)
+          PY
