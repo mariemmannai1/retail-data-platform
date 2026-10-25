@@ -54,6 +54,9 @@ jobs:
       
       - name: Run independent SQL transformation tests
         run: python -m pytest tests/test_sql_transformations.py -v
+      
+      - name: Run model integrity tests
+        run: python -m pytest tests/test_model_integrity.py -v
 
 
       - name: Check SQL files are present
