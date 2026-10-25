@@ -1,4 +1,6 @@
 
+import datetime
+
 import duckdb
 
 
@@ -37,11 +39,11 @@ def test_daily_sales_aggregation():
             ORDER BY order_channel
         """).fetchall()
 
+        expected_date = datetime.date(2026, 1, 1)
+
         assert result == [
-            (duckdb.sql("SELECT DATE '2026-01-01'").fetchone()[0],
-             "Online", 2, 150.0, 75.0),
-            (duckdb.sql("SELECT DATE '2026-01-01'").fetchone()[0],
-             "Store", 1, 80.0, 80.0),
+            (expected_date, "Online", 2, 150.0, 75.0),
+            (expected_date, "Store", 1, 80.0, 80.0),
         ]
 
     finally:
