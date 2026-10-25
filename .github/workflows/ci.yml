@@ -60,3 +60,6 @@ jobs:
           for file in files:
               print(file)
           PY
+
+      - name: Run independent forecast tests
+        run: python -m pytest tests/test_forecast_lib.py -v
