@@ -129,7 +129,11 @@ SELECT
     order_channel,
     COUNT(*) AS number_of_orders,
     ROUND(SUM(total_amount), 2) AS total_revenue,
-    ROUND(AVG(total_amount), 2) AS average_order_value
+    ROUND(
+    SUM(CAST(total_amount AS DECIMAL(18, 2)))
+    / NULLIF(COUNT(*), 0),
+    2
+) AS average_order_value
 FROM fact_orders
 WHERE order_status = 'Completed'
 GROUP BY order_date, order_channel;
