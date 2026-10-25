@@ -51,6 +51,11 @@ jobs:
       - name: Check code quality with Ruff
         run: python -m ruff check src/ tests/
 
+      
+      - name: Run independent SQL transformation tests
+        run: python -m pytest tests/test_sql_transformations.py -v
+
+
       - name: Check SQL files are present
         run: |
           python - <<'PY'
