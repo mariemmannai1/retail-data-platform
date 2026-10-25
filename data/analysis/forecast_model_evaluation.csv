@@ -1,0 +1,6 @@
+model,mae,rmse,wape_pct,beats_lag7_pct,beats_mean_pct,n_origins,horizon_days,is_champion,run_ts
+Moyenne de l'historique,117.8,147.39,17.6,81.0,0.0,26,7,True,2026-10-25 18:08:01
+Moyenne par jour de semaine,119.02,148.44,17.7,81.0,38.0,26,7,False,2026-10-25 18:08:01
+Random Forest (sans mois ni jour de l'année),125.45,157.76,18.7,81.0,31.0,26,7,False,2026-10-25 18:08:01
+Random Forest (variables du projet),128.21,159.3,19.1,81.0,23.0,26,7,False,2026-10-25 18:08:01
+lag_7 (baseline du projet),167.76,204.25,25.0,0.0,19.0,26,7,False,2026-10-25 18:08:01

@@ -1,0 +1,11 @@
+store_id,product_id,product_name,category,stock_on_hand,stock_on_order,reorder_level,shortfall,lead_time_days
+ST008,P0062,Shampoo 400ml,Health & Beauty,17,0,96,79,5
+ST007,P0044,Sugar 1kg,Grocery,5,0,83,78,9
+ST004,P0017,Mozzarella 125g,Dairy & Eggs,2,0,76,74,5
+ST003,P0021,Bagels 5 Pack,Bakery,4,0,78,74,5
+ST008,P0029,Cod Fillets 400g,Meat & Fish,7,20,96,69,4
+ST005,P0066,Deodorant 150ml,Health & Beauty,0,0,64,64,5
+ST008,P0057,Laundry Detergent 30 Wash,Household,34,0,95,61,8
+ST008,P0044,Sugar 1kg,Grocery,24,0,83,59,9
+ST005,P0009,Strawberries 400g,Fresh Produce,31,0,89,58,7
+ST006,P0021,Bagels 5 Pack,Bakery,21,0,78,57,5

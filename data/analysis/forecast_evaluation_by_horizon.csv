@@ -1,0 +1,8 @@
+horizon,Moyenne de l'historique,Moyenne par jour de semaine,Random Forest (sans mois ni jour de l'année),Random Forest (variables du projet),lag_7 (baseline du projet)
+1,107.05,111.61,122.23,117.76,173.28
+2,133.78,135.66,141.82,141.7,175.56
+3,127.78,126.25,123.08,130.37,156.41
+4,142.3,148.23,153.24,160.25,191.3
+5,69.28,69.85,82.61,78.61,99.05
+6,126.52,126.04,125.79,134.06,198.81
+7,117.89,115.51,129.41,134.75,179.92

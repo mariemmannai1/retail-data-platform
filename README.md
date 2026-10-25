@@ -53,18 +53,18 @@ The project includes the following analytical tables:
 
 The model was validated against key data-quality and consistency checks.
 
-## Sales Forecasting
+   ## Sales Forecasting
 
-A Random Forest regression model was evaluated against a seasonal baseline using a time-based train/test split.
+   A Random Forest model forecasts daily sales for seven days. It was first evaluated on one test month, then on 26 rolling periods against simpler references.
 
-| Metric | Result |
-|---|---:|
-| Training period | 327 days |
-| Test period | 31 days |
-| Random Forest MAE | 151.19 |
-| Random Forest RMSE | 179.19 |
-| Baseline MAE | 177.48 |
-| MAE improvement over baseline | 14.8% |
+   | Model | MAE (26 periods) |
+   |---|---:|
+   | Historical average | 117.80 |
+   | Average by weekday | 119.02 |
+   | Random Forest | 128.21 |
+   | lag_7 baseline | 167.76 |
+
+   The Random Forest beats the lag_7 baseline (14.8% lower MAE on the December test month) but does not beat a simple historical average on this synthetic dataset. The seven-day forecast therefore uses the best-performing model (`src/forecast_champion.py`). The data covers 2025: the January 1–7, 2026 forecast is a historical project output.
 
 **Important:** The available dataset covers 2025. The generated forecast for January 1–7, 2026 is a historical project output, not a current forecast.
 
@@ -92,6 +92,29 @@ Supported topics include:
 - Seven-day forecast
 
 The model does not generate executable SQL. Python selects an approved query, and DuckDB is opened in read-only mode.
+## Business Rules and KPIs
+
+Defined in `docs/business_rules.md`: only `Completed` orders count; amounts are in GBP (per the data dictionary).
+
+| KPI | Value |
+|---|---:|
+| Net Sales (excl. VAT) | 228,457.01 |
+| Revenue incl. VAT and delivery | 249,520.30 |
+| Orders | 9,589 |
+| Quantity | 90,585 |
+| Average order value | 26.02 |
+
+## Key Findings
+
+See `docs/analysis_findings.md`. Highlights: promotions represent 4.9% of net sales; identified and anonymous customers have the same basket (23.84 vs 23.78); convenience stores sell as much as large supermarkets with about three times fewer staff per sale; 92 store-product pairs are below their reorder level, 57 of them without a pending order.
+
+## Tests
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests -v
+```
+
+36 tests check row counts, keys, orphan records, stock, `daily_sales` reconciliation, KPIs and forecast tables.
 
 ## Prerequisites
 

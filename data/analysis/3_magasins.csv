@@ -1,0 +1,9 @@
+store_id,store_name,city,store_format,staff_count,orders,net_sales,net_sales_per_order,net_sales_per_staff
+ST001,RYStore Manchester Central,Manchester,Large Supermarket,58,1197,29434.55,24.59,507.0
+ST002,RYStore Salford Quays,Salford,Convenience,24,1223,29211.54,23.89,1217.0
+ST004,RYStore Liverpool Dock,Liverpool,Medium Supermarket,42,1250,29105.98,23.28,693.0
+ST006,RYStore Birmingham Bullring,Birmingham,Large Supermarket,71,1231,28817.98,23.41,406.0
+ST007,RYStore Nottingham Lace,Nottingham,Convenience,21,1202,28806.83,23.97,1372.0
+ST005,RYStore Sheffield Moor,Sheffield,Medium Supermarket,39,1186,28192.83,23.77,723.0
+ST008,RYStore York Foss,York,Medium Supermarket,36,1167,27855.21,23.87,774.0
+ST003,RYStore Leeds Market,Leeds,Large Supermarket,64,1133,27032.09,23.86,422.0

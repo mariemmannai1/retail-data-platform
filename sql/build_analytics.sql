@@ -74,3 +74,51 @@ SELECT
     last_restock_date,
     aisle_location
 FROM read_csv_auto('data/raw/inventory.csv');
+-- 6. Dimension date : une ligne par jour, de la première à la dernière date de vente
+CREATE OR REPLACE TABLE dim_date AS
+WITH bounds AS (
+    SELECT MIN(order_date) AS first_date, MAX(order_date) AS last_date
+    FROM fact_sales
+),
+calendar AS (
+    SELECT CAST(d AS DATE) AS date_key
+    FROM bounds, generate_series(first_date, last_date, INTERVAL 1 DAY) AS t(d)
+)
+SELECT
+    date_key,
+    year(date_key) AS year,
+    quarter(date_key) AS quarter,
+    month(date_key) AS month,
+    strftime(date_key, '%Y-%m') AS year_month,
+    monthname(date_key) AS month_name,
+    day(date_key) AS day_of_month,
+    isodow(date_key) AS day_of_week,
+    dayname(date_key) AS day_name,
+    weekofyear(date_key) AS iso_week,
+    isodow(date_key) >= 6 AS is_weekend
+FROM calendar;
+
+
+-- 7. Table de faits des commandes : une ligne par commande
+CREATE OR REPLACE TABLE fact_orders AS
+SELECT
+    o.order_id,
+    CAST(o.order_datetime AS DATE) AS order_date,
+    o.order_datetime,
+    o.store_id,
+    o.customer_id,
+    o.order_channel,
+    o.payment_method,
+    o.order_status,
+    o.subtotal,
+    o.discount_total,
+    o.vat_total,
+    o.delivery_fee,
+    o.total_amount,
+    COUNT(i.order_item_id) AS line_count,
+    COALESCE(SUM(i.quantity), 0) AS units,
+    COALESCE(ROUND(SUM(i.line_net_amount), 2), 0) AS net_sales
+FROM read_csv_auto('data/raw/orders.csv') o
+LEFT JOIN read_csv_auto('data/raw/order_items.csv') i
+    ON o.order_id = i.order_id
+GROUP BY ALL;
