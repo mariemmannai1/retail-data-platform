@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 import subprocess
 import sys
 import os   # à ajouter avec les imports
