@@ -2,8 +2,10 @@
 from pathlib import Path
 import duckdb
 
+import os   # à ajouter avec les imports
+
 project_dir = Path(__file__).resolve().parent.parent
-db_path = project_dir / "retail.duckdb"
+db_path = project_dir / os.getenv("RETAIL_DB_NAME", "retail.duckdb")
 data_dir = project_dir / "data" / "raw"
 
 with duckdb.connect(str(db_path), read_only=True) as con:

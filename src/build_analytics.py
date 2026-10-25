@@ -17,6 +17,7 @@ with duckdb.connect(str(db_path)) as con:
         "dim_stores",
         "dim_customers",
 	"fact_inventory",
+    "daily_sales",
     ]:
         count = con.execute(
             f"SELECT COUNT(*) FROM {table}"

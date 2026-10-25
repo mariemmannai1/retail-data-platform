@@ -122,3 +122,14 @@ FROM read_csv_auto('data/raw/orders.csv') o
 LEFT JOIN read_csv_auto('data/raw/order_items.csv') i
     ON o.order_id = i.order_id
 GROUP BY ALL;
+-- 8. Ventes quotidiennes par canal : commandes Completed, montant TTC au niveau commande
+CREATE OR REPLACE TABLE daily_sales AS
+SELECT
+    order_date,
+    order_channel,
+    COUNT(*) AS number_of_orders,
+    ROUND(SUM(total_amount), 2) AS total_revenue,
+    ROUND(AVG(total_amount), 2) AS average_order_value
+FROM fact_orders
+WHERE order_status = 'Completed'
+GROUP BY order_date, order_channel;

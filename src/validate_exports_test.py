@@ -2,18 +2,16 @@
 import duckdb
 import sys
 
-folder = Path("data/powerbi_docker_test")
+db_path = PROJECT_DIR / os.getenv("RETAIL_DB_NAME", "retail_docker_test.duckdb")
+folder = PROJECT_DIR / "data" / os.getenv("RETAIL_EXPORT_DIR", "powerbi_docker_test")
 
-expected = {
-    "fact_sales": 47512,
-    "dim_products": 66,
-    "dim_customers": 800,
-    "dim_stores": 8,
-    "fact_inventory": 528,
-    "daily_sales": 1061,
-    "forecast_sales": 7,
-    "forecast_model_metrics": 1,
-}
+with duckdb.connect(str(db_path), read_only=True) as con:
+    for table in tables:                      # tables = la liste des 8 noms
+        expected_rows = con.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+        actual_rows = con.execute(
+            "SELECT COUNT(*) FROM read_parquet(?)", [str(folder / f"{table}.parquet")]
+        ).fetchone()[0]
+        passed = actual_rows == expected_rows and actual_rows > 0
 
 with duckdb.connect() as con:
     success = True

@@ -1,6 +1,9 @@
 ﻿from pathlib import Path
 import subprocess
 import sys
+import os   # à ajouter avec les imports
+
+ENV = {**os.environ, "RETAIL_DB_NAME": os.getenv("RETAIL_DB_NAME", "retail_docker_test.duckdb")}
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 PYTHON = sys.executable
@@ -12,6 +15,7 @@ STEPS = [
     ("Validation de daily_sales", "validate_daily_sales_test.py"),
     ("Comparaison de daily_sales", "compare_daily_sales_test.py"),
     ("Vérification de la base", "check_database_test.py"),
+        ("Génération des prévisions IA", "forecast_sales.py"),
     ("Chargement des prévisions IA", "load_forecast_test.py"),
     ("Export des tables Parquet", "export_for_powerbi_test.py"),
     ("Validation des exports Parquet", "validate_exports_test.py"),
@@ -35,6 +39,7 @@ for description, script in STEPS:
     result = subprocess.run(
         [PYTHON, str(script_path)],
         cwd=PROJECT_DIR,
+        env=ENV,
         check=False,
     )
 
