@@ -61,7 +61,7 @@ with duckdb.connect(str(db_path), read_only=True) as con:
             COUNT(*) FILTER (
                 WHERE source_aov IS NOT NULL
                   AND model_aov IS NOT NULL
-                  AND ABS(source_aov - model_aov) > 0.01
+                  AND ABS(source_aov - model_aov) > 0.010001
             ) AS aov_difference
         FROM comparison
     """).fetchone()

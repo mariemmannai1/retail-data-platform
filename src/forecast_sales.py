@@ -1,4 +1,5 @@
 
+import os
 from pathlib import Path
 
 import duckdb
@@ -6,11 +7,9 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error
-import os   # avec les imports
 
-DB_PATH = PROJECT_DIR / os.getenv("RETAIL_DB_NAME", "retail.duckdb")
 PROJECT_DIR = Path(__file__).resolve().parent.parent
-DB_PATH = PROJECT_DIR / "retail.duckdb"
+DB_PATH = PROJECT_DIR / os.getenv("RETAIL_DB_NAME", "retail.duckdb")
 
 # 1. Charger les ventes quotidiennes
 with duckdb.connect(str(DB_PATH), read_only=True) as con:
