@@ -1,6 +1,5 @@
 """Tests des tables produites par forecast_champion.py (ignorés si le script n'a pas été lancé)."""
 import pytest
-
 from conftest import scalar
 
 

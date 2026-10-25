@@ -4,7 +4,6 @@ Lancer depuis la racine du projet :
     .\\.venv\\Scripts\\python.exe -m pytest tests -v
 """
 import pytest
-
 from conftest import scalar
 
 

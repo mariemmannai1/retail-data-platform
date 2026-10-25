@@ -212,75 +212,44 @@ with duckdb.connect(str(DB_PATH), read_only=True) as con:
         with st.chat_message("user"):
             st.markdown(question)
 
-        with st.chat_message("assistant"):
-            with st.spinner("Analyzing your question..."):
-                try:
-                    answer, result_df, intent = answer_question(
-                        question, con
-                    )
 
-                    st.markdown(answer)
+        with st.chat_message("assistant"), st.spinner("Analyzing your question..."):
+            try:
+                answer, result_df, intent = answer_question(question, con)
+                st.markdown(answer)
 
-                    chart_type = None
-                    x_column = None
-                    y_column = None
+                chart_type = None
+                x_column = None
+                y_column = None
 
-                    chart_config = {
-                        "channel_sales": (
-                            "bar", "order_channel", "revenue"
-                        ),
-                        "category_sales": (
-                            "bar", "category", "revenue"
-                        ),
-                        "top_products": (
-                            "bar", "product_name", "revenue"
-                        ),
-                        "monthly_sales": (
-                            "line", "month", "revenue"
-                        ),
-                        "forecast": (
-                            "line", "forecast_date", "forecast_revenue"
-                        ),
-                    }
+                chart_config = {
+                    "channel_sales": ("bar", "order_channel", "revenue"),
+                    "category_sales": ("bar", "category", "revenue"),
+                    "top_products": ("bar", "product_name", "revenue"),
+                    "monthly_sales": ("line", "month", "revenue"),
+                    "forecast": ("line", "forecast_date", "forecast_revenue"),
+                }
 
-                    if result_df is not None:
-                        st.dataframe(
-                            result_df,
-                            use_container_width=True,
-                        )
+                if result_df is not None:
+                    st.dataframe(result_df, use_container_width=True)
 
-                        if intent in chart_config:
-                            (
-                                chart_type,
-                                x_column,
-                                y_column,
-                            ) = chart_config[intent]
+                    if intent in chart_config:
+                        chart_type, x_column, y_column = chart_config[intent]
+                        st.subheader("Visualization")
 
-                            st.subheader("Visualization")
+                        if chart_type == "bar":
+                            st.bar_chart(result_df, x=x_column, y=y_column)
+                        else:
+                            st.line_chart(result_df, x=x_column, y=y_column)
 
-                            if chart_type == "bar":
-                                st.bar_chart(
-                                    result_df,
-                                    x=x_column,
-                                    y=y_column,
-                                )
-                            else:
-                                st.line_chart(
-                                    result_df,
-                                    x=x_column,
-                                    y=y_column,
-                                )
+                st.session_state.messages.append({
+                    "role": "assistant",
+                    "content": answer,
+                    "data": result_df,
+                    "chart_type": chart_type,
+                    "x_column": x_column,
+                    "y_column": y_column,
+                })
 
-                    st.session_state.messages.append({
-                        "role": "assistant",
-                        "content": answer,
-                        "data": result_df,
-                        "chart_type": chart_type,
-                        "x_column": x_column,
-                        "y_column": y_column,
-                    })
-
-                except Exception as error:
-                    st.error(
-                        f"Could not process the question: {error}"
-                    )
+            except (duckdb.Error, ollama.ResponseError, ollama.RequestError) as error:
+                st.error(f"Could not process the question: {error}")

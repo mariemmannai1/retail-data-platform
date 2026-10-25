@@ -13,7 +13,14 @@ import sys
 import duckdb
 import pandas as pd
 
-from forecast_lib import HORIZON, MODELS, db_path, load_series, project_dir, rolling_evaluation
+from forecast_lib import (
+    HORIZON,
+    MODELS,
+    db_path,
+    load_series,
+    project_dir,
+    rolling_evaluation,
+)
 
 out_dir = project_dir / "data" / "analysis"
 out_dir.mkdir(parents=True, exist_ok=True)

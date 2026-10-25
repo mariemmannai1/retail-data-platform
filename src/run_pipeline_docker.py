@@ -1,7 +1,7 @@
-from pathlib import Path
+import os  # à ajouter avec les imports
 import subprocess
 import sys
-import os   # à ajouter avec les imports
+from pathlib import Path
 
 ENV = {**os.environ, "RETAIL_DB_NAME": os.getenv("RETAIL_DB_NAME", "retail_docker_test.duckdb")}
 

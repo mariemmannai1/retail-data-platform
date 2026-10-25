@@ -7,7 +7,12 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from forecast_lib import predict_mean, predict_lag_7, predict_random_forest, FEATURES_PROJECT
+from forecast_lib import (
+    FEATURES_PROJECT,
+    predict_lag_7,
+    predict_mean,
+    predict_random_forest,
+)
 
 
 def test_predict_mean_returns_history_average():

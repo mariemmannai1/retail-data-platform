@@ -1,7 +1,8 @@
 
-from pathlib import Path
-import duckdb
 import sys
+from pathlib import Path
+
+import duckdb
 
 project_dir = Path(__file__).resolve().parent.parent
 db_path = project_dir / "retail.duckdb"

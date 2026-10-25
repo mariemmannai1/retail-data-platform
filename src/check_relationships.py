@@ -1,8 +1,8 @@
 
+import os  # à ajouter avec les imports
 from pathlib import Path
-import duckdb
 
-import os   # à ajouter avec les imports
+import duckdb
 
 project_dir = Path(__file__).resolve().parent.parent
 db_path = project_dir / os.getenv("RETAIL_DB_NAME", "retail.duckdb")

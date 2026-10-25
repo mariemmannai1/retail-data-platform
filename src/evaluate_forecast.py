@@ -3,7 +3,14 @@
 Ce script n'écrit rien dans DuckDB : il affiche les résultats et écrit des CSV dans data/analysis/.
 Les modèles et la méthode sont dans forecast_lib.py.
 """
-from forecast_lib import HORIZON, MIN_TRAIN_DAYS, MEAN_MODEL, project_dir, load_series, rolling_evaluation
+from forecast_lib import (
+      HORIZON,
+      MEAN_MODEL,
+      MIN_TRAIN_DAYS,
+      load_series,
+      project_dir,
+      rolling_evaluation,
+)
 
 out_dir = project_dir / "data" / "analysis"
 out_dir.mkdir(parents=True, exist_ok=True)

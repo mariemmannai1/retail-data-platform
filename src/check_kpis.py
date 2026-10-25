@@ -1,4 +1,5 @@
 from pathlib import Path
+
 import duckdb
 
 project_dir = Path(__file__).resolve().parent.parent
