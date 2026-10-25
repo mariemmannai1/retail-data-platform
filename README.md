@@ -114,7 +114,7 @@ See `docs/analysis_findings.md`. Highlights: promotions represent 4.9% of net sa
 .\.venv\Scripts\python.exe -m pytest tests -v
 ```
 
-36 tests check row counts, keys, orphan records, stock, `daily_sales` reconciliation, KPIs and forecast tables.
+41 tests passed successfully. They cover the project's existing data integrity, analytical consistency, and forecasting checks.
 
 ## Prerequisites
 
@@ -221,3 +221,70 @@ Raw CSV files, generated Parquet exports, and local DuckDB databases are exclude
 ## Author
 
 Developed as a portfolio project demonstrating practical skills in data engineering, analytics, business intelligence, machine learning, and local AI integration.
+
+
+## Recent Improvements
+
+### Sales Dashboard with Streamlit
+
+Added `dashboards/sales_dashboard.py`, a separate interactive sales dashboard built with Streamlit.
+
+The dashboard includes:
+- Key performance indicators: revenue, order count, average order value, and units sold.
+- Daily sales trends and revenue by sales channel.
+- Top five products by revenue.
+- Sales forecast visualization.
+- Date and sales-channel filters.
+- CSV download functionality.
+
+This application complements the existing two-page Power BI report.
+
+### SQL and Daily Sales Validation
+
+Updated `sql/build_analytics.sql` to improve the calculation of `average_order_value` using decimal arithmetic and a division-by-zero safeguard.
+
+Updated `src/compare_daily_sales.py` to compare aggregated sales from the source orders with the `daily_sales` analytical table. The checks cover:
+- Missing date/channel groups.
+- Order count differences.
+- Revenue differences.
+- Average order value differences.
+
+A rounding discrepancy was investigated for online orders on March 20, 2025. The source and analytical model can produce different rounded AOV values at a half-cent boundary because of floating-point and rounding behavior. The current comparison uses a tolerance of `0.010001` for AOV differences. Therefore, the check confirms consistency within this tolerance rather than exact equality.
+
+### Additional Validation Scripts
+
+Added `src/check_numeric_types.py` to support the inspection of numeric data types.
+
+Renamed `src/validate_exports_test.py` to `src/validate_exports.py`. This script validates the exported Parquet datasets against their corresponding DuckDB tables by checking file existence and row counts.
+
+The rename prevents this standalone validation script from being collected as a pytest test module. Its validation logic remains available as a separate script.
+
+### Automated Test Collection Fix
+
+The standalone export validation script previously used `sys.exit()` at module level and had a filename matching pytest's test-file naming pattern. This caused an error during test collection.
+
+After renaming the script, the project test suite completed successfully:
+
+- **41 tests passed**
+- **Execution time: 18.58 seconds**
+
+Command used:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
+```
+
+### Power BI Refresh Issue
+
+Resolved a cyclic-reference error encountered while refreshing the existing Power BI report. The issue was addressed by disabling the automatic date/time option in Power BI Desktop.
+
+After the change, the report refreshed successfully, and both existing pages were checked:
+- Sales Overview
+- AI Sales Forecast
+
+The existing report and its visuals were preserved.
+
+### Version Control
+
+The recent SQL, Python validation, and Streamlit dashboard changes were committed and pushed to the GitHub repository on the `main` branch.
+
