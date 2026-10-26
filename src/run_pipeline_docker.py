@@ -1,4 +1,4 @@
-import os  # à ajouter avec les imports
+﻿import os  # Ã  ajouter avec les imports
 import subprocess
 import sys
 from pathlib import Path
@@ -9,16 +9,16 @@ PROJECT_DIR = Path(__file__).resolve().parent.parent
 PYTHON = sys.executable
 
 STEPS = [
-    ("Construction du modèle analytique", "build_analytics_test.py"),
-    ("Validation du modèle et des stocks", "validate_analytics_test.py"),
+    ("Construction du modÃ¨le analytique", "build_analytics_test.py"),
+    ("Validation du modÃ¨le et des stocks", "validate_analytics_test.py"),
     ("Validation des relations", "check_relationships.py"),
     ("Validation de daily_sales", "validate_daily_sales_test.py"),
     ("Comparaison de daily_sales", "compare_daily_sales_test.py"),
-    ("Vérification de la base", "check_database_test.py"),
-        ("Génération des prévisions IA", "forecast_sales.py"),
-    ("Chargement des prévisions IA", "load_forecast_test.py"),
+    ("VÃ©rification de la base", "check_database_test.py"),
+        ("GÃ©nÃ©ration des prÃ©visions IA", "forecast_sales.py"),
+    ("Chargement des prÃ©visions IA", "load_forecast_test.py"),
     ("Export des tables Parquet", "export_for_powerbi_test.py"),
-    ("Validation des exports Parquet", "validate_exports_test.py"),
+    ("Validation des exports Parquet", "validate_exports.py"),
 ]
 
 
@@ -45,9 +45,10 @@ for description, script in STEPS:
 
     if result.returncode != 0:
         print(f"\nECHEC : {script}")
-        print("Pipeline arrêtée.")
+        print("Pipeline arrÃªtÃ©e.")
         sys.exit(result.returncode)
 
 print("\n" + "=" * 60)
 print("PIPELINE DE TEST TERMINEE AVEC SUCCES")
 print("=" * 60)
+

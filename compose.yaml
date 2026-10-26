@@ -11,3 +11,59 @@ services:
       PYTHONUNBUFFERED: "1"
       PYTHONIOENCODING: "utf-8"
     command: ["python", "src/run_pipeline_docker.py"]
+
+  
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow_local_dev
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow -d airflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+
+  airflow:
+    build:
+      context: .
+      dockerfile: airflow/Dockerfile
+    image: retail-airflow:3.1.0
+    container_name: retail-airflow
+    user: "0:0"
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    working_dir: /opt/retail
+    volumes:
+      - ./:/opt/retail
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow_local_dev@postgres/airflow
+      RETAIL_DB_NAME: retail_docker_test.duckdb
+      PYTHONUNBUFFERED: "1"
+      PYTHONIOENCODING: "utf-8"
+
+    ports:
+      - "8080:8080"
+    command:
+      - bash
+      - -c
+      - airflow standalone
+
+
+volumes:
+  postgres-data:
+
