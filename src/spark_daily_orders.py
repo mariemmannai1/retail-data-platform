@@ -1,8 +1,8 @@
-import os
 from pathlib import Path
 
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, to_date, countDistinct, sum as spark_sum
+from pyspark.sql.functions import col, countDistinct, to_date
+from pyspark.sql.functions import sum as spark_sum
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 ORDERS_FILE = PROJECT_DIR / "data" / "raw" / "orders.csv"

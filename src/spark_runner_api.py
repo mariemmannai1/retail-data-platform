@@ -1,6 +1,6 @@
 
-import os
 import subprocess
+
 from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
@@ -19,6 +19,7 @@ def run_spark():
                 SCRIPT,
             ],
             cwd="/opt/retail",
+            check=False,
             capture_output=True,
             text=True,
             timeout=600,

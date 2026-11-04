@@ -1,7 +1,9 @@
 
 from pathlib import Path
+
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, sum as spark_sum, count
+from pyspark.sql.functions import col, count
+from pyspark.sql.functions import sum as spark_sum
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 INPUT_FILE = PROJECT_DIR / "data" / "sales_forecast_7days.csv"

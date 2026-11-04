@@ -1,6 +1,5 @@
 
 import subprocess
-import sys
 from pathlib import Path
 
 PROJECT_DIR = Path("/opt/retail")
