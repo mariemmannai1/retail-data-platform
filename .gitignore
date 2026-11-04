@@ -24,3 +24,8 @@ data/processed/
 data/powerbi_docker_test/
 data/forecast_metrics.csv
 data/sales_forecast_7days.csv
+
+# Generated Spark outputs and logs
+data/spark_daily_orders/
+data/spark_sales_summary/
+logs/
