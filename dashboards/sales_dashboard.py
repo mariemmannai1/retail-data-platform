@@ -162,9 +162,9 @@ units_sold = product_kpis[0] if product_kpis else 0
 
 c1, c2, c3, c4 = st.columns(4)
 
-c1.metric("Revenue", f"{revenue:,.2f} DT")
+c1.metric("Revenue", f"{revenue:,.2f} £")
 c2.metric("Orders", f"{orders:,.0f}")
-c3.metric("Average Order Value", f"{aov:,.2f} DT")
+c3.metric("Average Order Value", f"{aov:,.2f} £")
 c4.metric("Units Sold", f"{units_sold:,.0f}")
 
 
@@ -183,7 +183,7 @@ if not daily.empty:
     st.line_chart(
         daily.set_index("order_date")["total_revenue"],
         x_label="Date",
-        y_label="Revenue (DT)",
+        y_label="Revenue (£)",
     )
 else:
     st.info("No sales for the selected filters.")
@@ -210,7 +210,7 @@ with left:
         st.bar_chart(
             channel_data.set_index("order_channel")["revenue"],
             x_label="Channel",
-            y_label="Revenue (DT)",
+            y_label="Revenue (£)",
         )
         st.dataframe(channel_data, hide_index=True, use_container_width=True)
     else:
@@ -249,7 +249,7 @@ with right:
         st.bar_chart(
             top_products.set_index("product_name")["revenue"],
             x_label="Product",
-            y_label="Revenue (DT)",
+            y_label="Revenue (£)",
         )
 
         st.dataframe(
@@ -283,7 +283,7 @@ if not forecast.empty:
     st.line_chart(
         forecast_view.set_index("forecast_date")["forecast_revenue"],
         x_label="Forecast date",
-        y_label="Predicted revenue (DT)",
+        y_label="Predicted revenue (£)",
     )
 
     st.dataframe(
@@ -292,7 +292,7 @@ if not forecast.empty:
         ].rename(
             columns={
                 "forecast_date": "Date",
-                "forecast_revenue": "Predicted Revenue (DT)",
+                "forecast_revenue": "Predicted Revenue (£)",
                 "model_name": "Model",
             }
         ),

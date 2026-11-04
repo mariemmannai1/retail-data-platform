@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: mart_daily_sales
+    description: "Daily sales by order channel, derived from the existing daily_sales dataset."
+    columns:
+      - name: order_date
+        data_tests:
+          - not_null
+
+      - name: order_channel
+        data_tests:
+          - not_null
+
+      - name: number_of_orders
+        data_tests:
+          - not_null
+
+      - name: total_revenue
+        data_tests:
+          - not_null
+
+      - name: average_order_value
+        data_tests:
+          - not_null

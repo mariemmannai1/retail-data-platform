@@ -64,6 +64,36 @@ services:
       - airflow standalone
 
 
+  spark:
+    image: apache/spark:3.5.8
+    container_name: retail-spark
+    restart: unless-stopped
+    working_dir: /opt/retail
+    volumes:
+      - ./:/opt/retail
+    command: ["/opt/spark/bin/spark-class", "org.apache.spark.deploy.master.Master"]
+    ports:
+      - "8081:8080"
+      - "7077:7077"
+
+
+  spark-worker:
+    image: apache/spark:3.5.8
+    container_name: retail-spark-worker
+    depends_on:
+      - spark
+    command:
+      - /opt/spark/bin/spark-class
+      - org.apache.spark.deploy.worker.Worker
+      - spark://spark:7077
+    volumes:
+      - ./:/opt/retail
+
+
+
+
+
+
 volumes:
   postgres-data:
 
