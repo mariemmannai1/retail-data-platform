@@ -1,130 +1,244 @@
-﻿# Retail Data Platform & AI Copilot
+﻿# Retail Data Platform 2026 | Data Engineering, BI & AI
 
-An end-to-end retail analytics project combining data engineering, business intelligence, machine learning, and a local AI assistant.
+An end-to-end retail data platform combining data engineering, analytics, business intelligence, machine learning, and local AI integration.
+
+The project transforms retail operational data into validated analytical datasets, interactive dashboards, sales forecasts, and natural-language business insights.
 
 ## Project Overview
 
-This project transforms retail sales data into validated analytical datasets, business insights, sales forecasts, and natural-language answers.
+**Retail Data Platform 2026** demonstrates a complete data workflow, from raw data ingestion to business intelligence and AI-assisted analytics.
+
+The platform integrates Python, SQL, DuckDB, Apache Airflow, Apache Spark, dbt, Power BI, and Streamlit.
 
 ### Key Features
 
-- **Data Engineering:** Python-based data processing and pipeline orchestration.
+- **Data Engineering:** Python and SQL transformations, automated pipelines, and data processing.
+- **Workflow Orchestration:** Apache Airflow DAG for pipeline execution.
+- **Distributed Processing:** Apache Spark for data transformation and aggregation.
 - **Analytical Database:** DuckDB with fact and dimension tables.
-- **Data Quality:** Validation of keys, relationships, missing values, duplicates, and analytical consistency.
-- **Business Intelligence:** Power BI dashboard for sales performance analysis.
-- **Sales Forecasting:** Random Forest regression model forecasting sales for seven days.
-- **AI Copilot:** Local LLM powered by Ollama and Llama 3.2, with a Streamlit interface.
-- **Data Export:** Parquet datasets prepared for Power BI.
+- **Data Transformation:** dbt models and data validation.
+- **Data Quality:** Checks for duplicates, missing values, relationships, keys, and analytical consistency.
+- **Business Intelligence:** Multi-page Power BI dashboards.
+- **Machine Learning:** Seven-day sales forecasting and model evaluation.
+- **AI Copilot:** Local LLM integration using Ollama and Llama 3.2.
+- **Interactive Analytics:** Streamlit dashboard and AI interface.
+- **Automated Testing:** Pytest and GitHub Actions CI workflow.
+- **Data Export:** Parquet datasets for downstream analytics.
 
 ## Technology Stack
 
 | Area | Technologies |
 |---|---|
 | Programming | Python, SQL |
-| Data Processing | Pandas, DuckDB |
-| Data Storage | DuckDB, Parquet |
-| Visualization | Power BI, Streamlit |
+| Data Processing | Pandas, Apache Spark |
+| Workflow Orchestration | Apache Airflow |
+| Analytical Database | DuckDB |
+| Data Transformation | dbt |
+| Data Storage | Parquet, CSV |
+| Business Intelligence | Power BI |
+| Interactive Applications | Streamlit |
 | Machine Learning | Scikit-learn, Random Forest |
 | Local AI | Ollama, Llama 3.2 |
-| Version Control | Git |
+| Containerization | Docker, Docker Compose |
+| Testing and Quality | Pytest, Ruff |
+| CI/CD | GitHub Actions |
+| Version Control | Git, GitHub |
 
 ## Architecture
 
-1. Raw retail CSV files are loaded from `data/raw/`.
-2. Python and SQL scripts transform the data.
-3. DuckDB stores the analytical model.
-4. Validation scripts check data quality and model consistency.
-5. Analytical datasets are exported to Parquet for Power BI.
-6. A machine learning model generates a seven-day sales forecast.
-7. The AI Copilot answers supported business questions using predefined, read-only SQL queries.
+The platform follows an end-to-end data architecture:
 
-## Analytical Model
+1. **Data Sources:** Retail CSV files containing orders, customers, products, stores, inventory, suppliers, and promotions.
+2. **Ingestion and Processing:** Python, SQL, and Spark scripts process and transform source data.
+3. **Orchestration:** Apache Airflow coordinates pipeline execution.
+4. **Analytical Storage:** DuckDB stores the analytical data model.
+5. **Transformation and Validation:** SQL and dbt models prepare analytical datasets and validate data consistency.
+6. **Data Export:** Analytical tables are exported to Parquet.
+7. **Machine Learning:** Forecasting models generate sales predictions and are evaluated against baseline approaches.
+8. **Business Intelligence:** Power BI and Streamlit provide interactive reporting.
+9. **AI Integration:** A local AI Copilot interprets supported business questions and retrieves results through predefined SQL queries.
 
-The project includes the following analytical tables:
+## Analytical Data Model
 
-- `fact_sales`
-- `dim_products`
-- `dim_stores`
-- `dim_customers`
-- `fact_inventory`
-- `daily_sales`
-- `forecast_sales`
-- `forecast_model_metrics`
+The analytical model includes the following tables:
 
-The model was validated against key data-quality and consistency checks.
+| Table | Description |
+|---|---|
+| `fact_sales` | Sales transactions and order-item information |
+| `dim_products` | Product information |
+| `dim_stores` | Store information |
+| `dim_customers` | Customer information |
+| `fact_inventory` | Inventory and stock information |
+| `daily_sales` | Daily sales aggregated by channel |
+| `forecast_sales` | Sales forecast outputs |
+| `forecast_model_metrics` | Forecast evaluation metrics |
 
-   ## Sales Forecasting
+### Model Validation
 
-   A Random Forest model forecasts daily sales for seven days. It was first evaluated on one test month, then on 26 rolling periods against simpler references.
+The analytical model was validated using automated checks covering:
 
-   | Model | MAE (26 periods) |
-   |---|---:|
-   | Historical average | 117.80 |
-   | Average by weekday | 119.02 |
-   | Random Forest | 128.21 |
-   | lag_7 baseline | 167.76 |
+- Duplicate primary keys.
+- Missing essential values.
+- Invalid relationships and foreign keys.
+- Negative or invalid quantities.
+- Source-to-model sales consistency.
+- Daily aggregation consistency.
+- Forecast output validation.
 
-   The Random Forest beats the lag_7 baseline (14.8% lower MAE on the December test month) but does not beat a simple historical average on this synthetic dataset. The seven-day forecast therefore uses the best-performing model (`src/forecast_champion.py`). The data covers 2025: the January 1–7, 2026 forecast is a historical project output.
+The analytical model contains 47,512 sales records, 66 products, 8 stores, 800 customers, and 528 inventory records.
 
-**Important:** The available dataset covers 2025. The generated forecast for January 1–7, 2026 is a historical project output, not a current forecast.
+## Power BI Dashboards
 
-## Power BI Dashboard
+The Power BI report provides several perspectives on retail business performance.
 
-The Power BI report includes:
+### Dashboard Screenshots
 
-- **Sales Overview:** revenue, order count, quantity, average order value, sales by channel, monthly trends, and top products.
-- **AI Sales Forecast:** forecast values, model evaluation metrics, and comparison with the baseline.
+#### 1. Sales Overview
 
-Open `Retail_Data_Platform.pbix` using Power BI Desktop.
-After regenerating the Parquet exports, refresh the data in Power BI Desktop to update the report.
+![Sales Overview](screenshots/overview_dashboard.png)
+
+#### 2. Customer Analysis
+
+![Customer Dashboard](screenshots/client_dashboard.png)
+
+#### 3. Store Performance
+
+![Store Dashboard](screenshots/magasins_dashboard.png)
+
+#### 4. Product Analysis
+
+![Product Dashboard](screenshots/produits_dashboard.png)
+
+#### 5. Inventory Analysis
+
+![Inventory Dashboard](screenshots/stocks_dashboard.png)
+
+#### 6. Sales Channels and Seasonality
+
+![Channels and Seasonality](screenshots/canaux-et-saisonnalité_dashboard.png)
+
+#### 7. Sales Forecasting
+
+![Sales Forecast](screenshots/prévision_dashboard.png)
+
+#### 8. Discounts and VAT Analysis
+
+![Discount and VAT Dashboard](screenshots/remise-TVA_dashboard.png)
+
+Open `Retail_Data_Platform.pbix` with Power BI Desktop to explore the complete report.
+
+After regenerating the Parquet exports, refresh the datasets in Power BI Desktop.
+
+## Sales Forecasting and Machine Learning
+
+The project includes a seven-day sales forecasting component.
+
+Several approaches were evaluated across 26 rolling validation periods.
+
+### Model Evaluation
+
+| Model | MAE |
+|---|---:|
+| Historical Average | 117.80 |
+| Average by Weekday | 119.02 |
+| Random Forest | 128.21 |
+| Lag-7 Baseline | 167.76 |
+
+The historical average achieved the lowest MAE in the rolling evaluation.
+
+The Random Forest improved upon the lag-7 baseline by approximately 14.8% on the December test month, but did not outperform the historical average across all 26 evaluation periods.
+
+The forecasting pipeline uses the best-performing approach selected by the champion-model logic implemented in `src/forecast_champion.py`.
+
+**Important:** The dataset covers January–December 2025. The January 1–7, 2026 forecast is a historical project output, not a current forecast.
 
 ## AI Copilot
 
-The local Streamlit application uses Ollama and Llama 3.2 to interpret questions and summarize results from predefined analytical SQL queries.
+The project includes a local AI assistant built with Streamlit, Ollama, and Llama 3.2.
 
-Supported topics include:
+The assistant interprets supported business questions and retrieves information through predefined, read-only SQL queries.
 
-- Overall sales summary
-- Sales by channel
-- Top products by revenue
-- Monthly sales trends
-- Sales by product category
-- Seven-day forecast
+Supported analytical topics include:
 
-The model does not generate executable SQL. Python selects an approved query, and DuckDB is opened in read-only mode.
+- Overall sales performance.
+- Sales by channel.
+- Top products by revenue.
+- Monthly sales trends.
+- Sales by product category.
+- Seven-day sales forecast.
+
+The language model does not generate executable SQL. Python selects approved queries, and DuckDB is accessed in read-only mode.
+
+## Streamlit Sales Dashboard
+
+A separate interactive dashboard is available in `dashboards/sales_dashboard.py`.
+
+Features include:
+
+- Revenue, order count, average order value, and units sold.
+- Daily sales trends.
+- Revenue by sales channel.
+- Top five products by revenue.
+- Sales forecast visualization.
+- Date and channel filters.
+- CSV export functionality.
+
 ## Business Rules and KPIs
 
-Defined in `docs/business_rules.md`: only `Completed` orders count; amounts are in GBP (per the data dictionary).
+Business definitions are documented in `docs/business_rules.md`.
+
+Only orders with the status `Completed` are included in the main sales KPIs. Monetary amounts are expressed in GBP, according to the source data dictionary.
 
 | KPI | Value |
 |---|---:|
-| Net Sales (excl. VAT) | 228,457.01 |
-| Revenue incl. VAT and delivery | 249,520.30 |
-| Orders | 9,589 |
-| Quantity | 90,585 |
-| Average order value | 26.02 |
+| Net Sales (excluding VAT) | £228,457.01 |
+| Revenue (including VAT and delivery) | £249,520.30 |
+| Completed Orders | 9,589 |
+| Quantity Sold | 90,585 |
+| Average Order Value | £26.02 |
 
-## Key Findings
+## Key Business Findings
 
-See `docs/analysis_findings.md`. Highlights: promotions represent 4.9% of net sales; identified and anonymous customers have the same basket (23.84 vs 23.78); convenience stores sell as much as large supermarkets with about three times fewer staff per sale; 92 store-product pairs are below their reorder level, 57 of them without a pending order.
+Detailed findings are available in `docs/analysis_findings.md`.
 
-## Tests
+Some highlights:
+
+- Promotions represent approximately 4.9% of net sales.
+- Identified and anonymous customers have similar average baskets (£23.84 vs £23.78).
+- Convenience stores generate comparable sales to larger supermarkets with approximately three times fewer staff per sale.
+- 92 store-product combinations are below their reorder level, including 57 without a pending order.
+
+## Automated Testing and CI
+
+The project uses Pytest for automated testing and GitHub Actions for continuous integration.
+
+The CI workflow includes:
+
+- Python syntax validation.
+- Code quality checks with Ruff.
+- SQL transformation tests.
+- Analytical model integrity tests.
+- Forecasting tests.
+- SQL file validation.
+
+Run the complete test suite locally:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest tests -v
 ```
 
-41 tests passed successfully. They cover the project's existing data integrity, analytical consistency, and forecasting checks.
+**Latest recorded local test result: 41 tests passed successfully.**
 
 ## Prerequisites
 
 - Windows
 - Python 3.11
 - Git
-- Power BI Desktop (for the report)
+- Docker Desktop
+- Power BI Desktop
 - Ollama with the `llama3.2:3b` model (for the AI Copilot)
 
-## Setup
+## Installation and Setup
 
 Clone the repository:
 
@@ -133,14 +247,19 @@ git clone https://github.com/mariemmannai1/retail-data-platform.git
 cd retail-data-platform
 ```
 
-Create a virtual environment and install the required packages:
+Create a Python virtual environment:
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install pandas duckdb scikit-learn streamlit ollama pyarrow
 ```
 
-Install Ollama from its official website and download the model:
+Install the main dependencies:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install pandas duckdb scikit-learn streamlit ollama pyarrow pytest ruff
+```
+
+Install and start Ollama, then download the model:
 
 ```powershell
 ollama pull llama3.2:3b
@@ -148,143 +267,102 @@ ollama pull llama3.2:3b
 
 ## Running the Project
 
-Run the main pipeline:
+### 1. Run the Main Data Pipeline
 
 ```powershell
 .\.venv\Scripts\python.exe .\src\run_pipeline.py
 ```
 
-Run the pipeline with forecasting:
+Run with forecasting:
 
 ```powershell
 .\.venv\Scripts\python.exe .\src\run_pipeline.py --with-forecast
 ```
 
-Launch the AI Copilot after the pipeline has generated the required local database and tables:
+### 2. Run the Streamlit Dashboard
+
+```powershell
+.\.venv\Scripts\python.exe -m streamlit run .\dashboards\sales_dashboard.py
+```
+
+### 3. Run the AI Copilot
 
 ```powershell
 .\.venv\Scripts\python.exe -m streamlit run .\src\ai_copilot.py
 ```
 
-Run the AI Copilot tests:
+### 4. Run with Docker
+
+Make sure Docker Desktop is installed and running.
+
+Build the Docker images:
 
 ```powershell
-.\.venv\Scripts\python.exe -m py_compile .\src\ai_copilot.py
+docker compose build
 ```
 
-### Run with Docker
-
-Docker Desktop must be installed and running.
-
-Build and execute the Dockerized pipeline:
+Execute the retail pipeline:
 
 ```powershell
 docker compose run --rm retail-pipeline
 ```
 
-The pipeline runs the analytical model, data-quality validations, daily-sales consistency checks, forecast loading, and Parquet export validation.
+The Docker pipeline executes the analytical transformations, data-quality validations, sales consistency checks, forecast loading, and Parquet export validation.
 
-The Docker test pipeline uses a separate database (`retail_docker_test.duckdb`) and export directory (`data/powerbi_docker_test/`) to avoid overwriting the original local project outputs.
+The Docker test pipeline uses a separate database (`retail_docker_test.duckdb`) and export directory (`data/powerbi_docker_test/`) to avoid overwriting the original local outputs.
 
-To rebuild the Docker image after changing the Docker configuration or dependencies:
+To rebuild images after changing dependencies or Docker configuration:
 
 ```powershell
 docker compose build --no-cache
 ```
 
-
 ## Repository Structure
 
 ```text
 retail-data-platform/
+│
+├── airflow/                 # Airflow configuration and DAGs
+├── dashboards/              # Streamlit sales dashboard
 ├── data/
-│   ├── raw/                 # Local source CSV files (not tracked)
-│   └── powerbi/             # Generated Parquet exports (not tracked)
-├── sql/                     # SQL transformations and analysis
-├── src/                     # Python pipeline, validation, forecasting, and AI
+│   ├── raw/                  # Source CSV files (not tracked)
+│   ├── powerbi/              # Generated Parquet exports
+│   └── processed/            # Processed datasets
+│
+├── dbt/                      # dbt project (if maintained at root)
+├── docs/                     # Business rules and analysis documentation
+├── retail_dbt/               # Retail dbt project
+├── screenshots/              # Power BI dashboard screenshots
+├── sql/                      # SQL transformations and analysis
+├── src/                      # Python pipeline, Spark, forecasting, AI
+├── tests/                    # Automated tests
+│
 ├── Retail_Data_Platform.pbix
-├── run_project.bat
+├── compose.yaml
+├── .github/workflows/        # GitHub Actions CI
 ├── .gitignore
 └── README.md
 ```
 
 ## Data Availability
 
-Raw CSV files, generated Parquet exports, and local DuckDB databases are excluded from version control. The source data must be obtained separately and placed in `data/raw/` before running the pipeline.
+Raw CSV files, generated Parquet exports, and local DuckDB databases are excluded from version control.
+
+The source data must be obtained separately and placed in `data/raw/` before executing the pipeline.
+
+Local configuration files, credentials, and generated logs should not be committed to the repository.
 
 ## Limitations
 
-- The forecast is based on historical synthetic/project data and should not be treated as a production business forecast.
-- The AI Copilot only supports the analyses implemented in its approved query set.
-- Forecast quality may change with additional data, seasonality, and future business conditions.
+- The source dataset represents a retail business scenario and should not be interpreted as live production data.
+- Forecast quality depends on historical data, seasonality, and model assumptions.
+- The AI Copilot only supports the analytical questions implemented in its approved query set.
+- The forecasting results are experimental and should not be treated as guaranteed business predictions.
 
 ## Author
 
-Developed as a portfolio project demonstrating practical skills in data engineering, analytics, business intelligence, machine learning, and local AI integration.
+Developed as a portfolio project demonstrating practical skills in:
 
+**Data Engineering · Data Analytics · Business Intelligence · Machine Learning · AI Integration**
 
-## Recent Improvements
-
-### Sales Dashboard with Streamlit
-
-Added `dashboards/sales_dashboard.py`, a separate interactive sales dashboard built with Streamlit.
-
-The dashboard includes:
-- Key performance indicators: revenue, order count, average order value, and units sold.
-- Daily sales trends and revenue by sales channel.
-- Top five products by revenue.
-- Sales forecast visualization.
-- Date and sales-channel filters.
-- CSV download functionality.
-
-This application complements the existing two-page Power BI report.
-
-### SQL and Daily Sales Validation
-
-Updated `sql/build_analytics.sql` to improve the calculation of `average_order_value` using decimal arithmetic and a division-by-zero safeguard.
-
-Updated `src/compare_daily_sales.py` to compare aggregated sales from the source orders with the `daily_sales` analytical table. The checks cover:
-- Missing date/channel groups.
-- Order count differences.
-- Revenue differences.
-- Average order value differences.
-
-A rounding discrepancy was investigated for online orders on March 20, 2025. The source and analytical model can produce different rounded AOV values at a half-cent boundary because of floating-point and rounding behavior. The current comparison uses a tolerance of `0.010001` for AOV differences. Therefore, the check confirms consistency within this tolerance rather than exact equality.
-
-### Additional Validation Scripts
-
-Added `src/check_numeric_types.py` to support the inspection of numeric data types.
-
-Renamed `src/validate_exports_test.py` to `src/validate_exports.py`. This script validates the exported Parquet datasets against their corresponding DuckDB tables by checking file existence and row counts.
-
-The rename prevents this standalone validation script from being collected as a pytest test module. Its validation logic remains available as a separate script.
-
-### Automated Test Collection Fix
-
-The standalone export validation script previously used `sys.exit()` at module level and had a filename matching pytest's test-file naming pattern. This caused an error during test collection.
-
-After renaming the script, the project test suite completed successfully:
-
-- **41 tests passed**
-- **Execution time: 18.58 seconds**
-
-Command used:
-
-```powershell
-.\.venv\Scripts\python.exe -m pytest -q
-```
-
-### Power BI Refresh Issue
-
-Resolved a cyclic-reference error encountered while refreshing the existing Power BI report. The issue was addressed by disabling the automatic date/time option in Power BI Desktop.
-
-After the change, the report refreshed successfully, and both existing pages were checked:
-- Sales Overview
-- AI Sales Forecast
-
-The existing report and its visuals were preserved.
-
-### Version Control
-
-The recent SQL, Python validation, and Streamlit dashboard changes were committed and pushed to the GitHub repository on the `main` branch.
-
+GitHub Repository: [mariemmannai1/retail-data-platform](https://github.com/mariemmannai1/retail-data-platform)
