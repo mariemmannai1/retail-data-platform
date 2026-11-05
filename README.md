@@ -197,6 +197,37 @@ Only orders with the status `Completed` are included in the main sales KPIs. Mon
 | Quantity Sold | 90,585 |
 | Average Order Value | £26.02 |
 
+### Spark – Distributed Processing Validation
+
+**Environment**
+- Apache Spark: 3.5.8
+- Spark Master: `spark://spark:7077`
+- Spark Worker: 1 active worker
+- Available CPU cores: 12
+- Deployment: Docker Compose
+
+**Validation test**
+
+Executed the built-in Spark Pi example using `spark-submit` with 10 partitions.
+
+**Command:**
+```bash
+spark-submit --master spark://spark:7077 \
+  --class org.apache.spark.examples.SparkPi \
+  /opt/spark/examples/jars/spark-examples_2.12-3.5.8.jar 10
+```
+
+**Results**
+- Application successfully submitted.
+- Spark Master successfully assigned the job to the Worker.
+- All 10 tasks completed successfully.
+- Pi result: approximately 3.1431.
+- SparkContext stopped with exit code 0.
+
+**Status: SUCCESS**
+
+This test confirms that the Spark Master and Worker communicate correctly and that the cluster can execute a distributed Spark application.
+
 ## Key Business Findings
 
 Detailed findings are available in `docs/analysis_findings.md`.

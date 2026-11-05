@@ -29,3 +29,4 @@ data/sales_forecast_7days.csv
 data/spark_daily_orders/
 data/spark_sales_summary/
 logs/
+data/powerbi_backup_before_airflow/

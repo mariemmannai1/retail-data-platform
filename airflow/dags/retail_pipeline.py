@@ -14,7 +14,8 @@ DBT = "/home/airflow/dbt-venv/bin/dbt"
 
 ENV = {
     **os.environ,
-    "RETAIL_DB_NAME": "retail_docker_test.duckdb",
+    "RETAIL_DB_NAME": "retail.duckdb",
+    "RETAIL_EXPORT_DIR": "powerbi",
 }
 
 STEPS = [
@@ -68,7 +69,8 @@ def retail_data_pipeline():
         dbt_env = os.environ.copy()
         dbt_env.pop("PYTHONPATH", None)
         dbt_env.pop("PYTHONHOME", None)
-        dbt_env["RETAIL_DB_NAME"] = "retail_docker_test.duckdb"
+        dbt_env["RETAIL_DB_NAME"] = "retail.duckdb"
+        dbt_env["RETAIL_EXPORT_DIR"] = "powerbi"
 
         for command in ("run", "test"):
             subprocess.run(
